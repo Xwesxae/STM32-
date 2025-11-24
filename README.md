@@ -36,12 +36,12 @@ framework = stm32cube
 build_flags = -D STM32F103xB
 # 4. Создание прошивки
 Создайте папку и файл:
-bash
-mkdir src
+`bash`
+`mkdir src`
 Содержимое src/main.c:
-c
+`c`
 // Прошивка для вывода "kirill" через UART
-int main(void) {
+`int main(void) {
     // Адреса регистров STM32F103
     volatile unsigned int* RCC_APB2ENR = (unsigned int*)0x40021018;
     volatile unsigned int* GPIOA_CRH = (unsigned int*)0x40010804;
@@ -50,27 +50,27 @@ int main(void) {
     volatile unsigned int* USART1_SR = (unsigned int*)0x40013800;
     volatile unsigned int* USART1_DR = (unsigned int*)0x40013804;
     
-    // Включаем тактирование GPIOA и USART1
+ Включаем тактирование GPIOA и USART1
     *RCC_APB2ENR |= (1<<2) | (1<<14);
     
-    // Настраиваем PA9 как TX (USART1)
+Настраиваем PA9 как TX (USART1)
     *GPIOA_CRH = (*GPIOA_CRH & ~0xFF0) | 0x490;
     
-    // Настраиваем USART1: 115200 baud, включение
+Настраиваем USART1: 115200 baud, включение
     *USART1_BRR = 0x0341;
     *USART1_CR1 = (1<<13) | (1<<3);
     
-    char message[] = "kirill\n";
+char message[] = "kirill\n";
     
-    while(1) {
-        // Отправляем сообщение
+  while(1) {
+Отправляем сообщение
         for(int i = 0; message[i] != 0; i++) {
-            // Ждем готовности передатчика
+            Ждем готовности передатчика
             while(!(*USART1_SR & (1<<7)));
-            // Отправляем символ
+            Отправляем символ
             *USART1_DR = message[i];
         }
-        // Задержка ~1 секунда
+        Задержка ~1 секунда
         for(volatile int j = 0; j < 1000000; j++);
     }
 }

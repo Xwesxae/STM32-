@@ -200,6 +200,7 @@ showAnalyzer sysbus.usart1
 logLevel -1
 
 # Start emulation
+```
 echo "Starting STM32 emulation..."
 echo "Expected output: 'kirill' every second"
 machine Start
@@ -209,10 +210,11 @@ bash
 renode renode_config.resc
 Способ 2: Ручной ввод команд
 Запустите Renode
+```
 
 Введите команды последовательно:
 
-python
+```python
 mach create
 machine LoadPlatformDescription @platforms/cpus/stm32f103.repl
 sysbus LoadELF "C:/firmware.elf"
@@ -221,6 +223,7 @@ start
 Способ 3: Запуск с логами
 bash
 renode --console renode_config.resc
+```
 ✅ Ожидаемый результат
 После успешного запуска вы должны увидеть:
 
